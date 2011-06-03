@@ -1,0 +1,15 @@
+
+Creating a pipe: a unidirectional data channel that can be used for interprocess communication.
+using the pipe syscall 
+
+The syscall is defined in unistd.h 
+
+  int pipe(int pipefd[2]);
+
+Create a one-way communication channel (pipe).
+
+If successful, two file descriptors are stored in pipefd;
+bytes written on pipefd[1] can be read from pipefd[0].
+
+Returns 0 if successful, -1 if not.  
+
