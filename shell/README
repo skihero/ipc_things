@@ -1,0 +1,7 @@
+Scripts generally use files to communicate the data 
+with other processes. 
+
+Variables in the a parent shell are inherited in the same
+way env variables are visibile in a shell process. 
+
+
