@@ -1,0 +1,16 @@
+Forking and things
+
+ Forking has a bunch of consequences that are explained in the man pages. 
+
+ Note: Under Linux fork() is implemented using copy-on-write pages, 
+        as a effect it duplicates the parent's page tables and creates a unique task structure for
+	the child. This may be different from the unix designs 
+
+	
+VFork 
+ Considered to be dangerous for serious things. 
+  It is used to create new processes without copying the page tables of the parent process.
+  It may be useful in performance-sensitive applications where  a  child  is created 
+	which then immediately issues an execve(2).
+ 
+

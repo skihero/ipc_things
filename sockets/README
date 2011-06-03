@@ -1,0 +1,61 @@
+Sample run 
+Client interaction 
+==================================
+[kishore@sa-kishore-k sockets_stuff]$ ./clien_socket.o /sbin/ifconfig
+argc val 2 
+argc  val: 2
+i val: 1
+send to server /sbin/ifconfig
+Data sent to server 
+Data recieved from server eth0      Link encap:Ethernet  HWaddr 5C:FF:35:02:13:03  
+          inet addr:172.16.31.166  Bcast:172.16.31.255  Mask:255.255.255.0
+          inet6 addr: fe80::5eff:35ff:fe02:1303/64 Scope:Link
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:694635 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:322751 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1000 
+          RX bytes:521021612 (496.8 MiB)  TX bytes:34340345 (32.7 MiB)
+          Interrupt:20 Memory:f2500000-f2520000 
+
+lo        Link encap:Local Loopback  
+          inet addr:127.0.0.1  Mask:255.0.0.0
+          inet6 addr: ::1/128 Scope:Host
+          UP LOOPBACK RUNNING  MTU:16436  Metric:1
+          RX packets:2933 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:2933 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:0 
+          RX bytes:244642 (238.9 KiB)  TX bytes:244642 (238.9 KiB)
+
+��   <--- Will take care of these extra bit later 
+
+
+
+
+Server interaction 
+===================================
+[kishore@sa-kishore-k sockets_stuff]$  ./test_socket.o 
+Listening to incoming requests
+Accepted a connection 
+Read data: /sbin/ifconfig 
+Data sent to the client 
+[kishore@sa-kishore-k sockets_stuff]$ /sbin/ifconfig
+eth0      Link encap:Ethernet  HWaddr 5C:FF:35:02:13:03  
+          inet addr:172.16.31.166  Bcast:172.16.31.255  Mask:255.255.255.0
+          inet6 addr: fe80::5eff:35ff:fe02:1303/64 Scope:Link
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:694554 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:322750 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1000 
+          RX bytes:521015944 (496.8 MiB)  TX bytes:34340279 (32.7 MiB)
+          Interrupt:20 Memory:f2500000-f2520000 
+
+lo        Link encap:Local Loopback  
+          inet addr:127.0.0.1  Mask:255.0.0.0
+          inet6 addr: ::1/128 Scope:Host
+          UP LOOPBACK RUNNING  MTU:16436  Metric:1
+          RX packets:2928 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:2928 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:0 
+          RX bytes:243342 (237.6 KiB)  TX bytes:243342 (237.6 KiB)
+
+
