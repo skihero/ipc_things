@@ -59,14 +59,20 @@ int main(int argc, char * argv[] ) {
 		exit(1);
 	}
 	else {
-		//char buf[BUFFER_SIZE] = "hi";  
+		/* Send the command line arguments to the server in a buffer */ 
+	
 		char buf[BUFFER_SIZE];
+		strcpy(buf,"");  //
 		int i = 1; 
 	        printf("argc  val: %d\n", argc);
-  		for(i; i<argc-1; i++) {
-			strcpy(buf,  argv[i] );  
+  		for(i; i<argc; i++) {
+			strcat(buf,  argv[i] );  
+			strcat(buf, " ");
 			printf("i val: %d\n", i);
+			printf("argv[%d] %s \n",i,argv[i] );	
 		}
+
+		printf("Sending: %s \n",buf); 	
 
 		sent_data_len = sizeof(buf) ; 
 		tried_len = send(my_socket, buf, sizeof(buf), 0) ; 
@@ -77,12 +83,13 @@ int main(int argc, char * argv[] ) {
 			exit(1); 
 		}
 		else { 
-			printf("Data sent to server \n"); 	
+			printf("sent to server \n"); 	
 			char read_buf [BUFFER_SIZE] ; 
 			ssize_t read_len ; 
 			
 			/* Read the exec status of our command */
 			read_len = recv(my_socket, read_buf, BUFFER_SIZE, 0 ) ; 
+			printf("read len %d \n", read_len) ;
 
 			if(read_len == -1 ) { 
 				printf("Error reading the data from server\n"); 
