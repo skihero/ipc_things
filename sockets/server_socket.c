@@ -100,10 +100,6 @@ int main(void) {
 					printf("Dup not done \n"); 
 					exit(1);
 				}
-			
-				//execlp("man", "man",read_buf,  NULL) ; 	
-			        // exec'ng every command that comes from a socket is a bad idea.
-				
 				
 				execlp(read_buf, read_buf, NULL); 
 				exit(0); 
@@ -142,17 +138,4 @@ int main(void) {
 		} 
 	} 
 	
-	
-	
-	/* Fork */ 
-		/* Serve the request */ 
-			/* parse the command */ 
-			   /* Fork for exec */ 
-				/* child */ 
-				   /* dupe the pipe */ 
-				   /* execvp */
-				/* parent */ 
-				   /* out the exec */ 
-	/* parent */  
-	
-	} 
+} 
