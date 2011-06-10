@@ -41,8 +41,7 @@ int main(void) {
 	int arg_iter;  			/* Start of the actual arg */ 
 	int dup_out = 0 ;  		/* Return value of the dup call */
 	int bck_log = 10 ; 		/* No of connections, behavior change in kernel 2.2 */	
-
-
+	int status ;			/* Status of parent wait */ 
 
 	/* Create the socket */
 	my_socket = socket(AF_INET, SOCK_STREAM, 0); 
@@ -89,6 +88,7 @@ int main(void) {
 		}
 		else { 
 			printf("Accepted a connection \n"); 
+			memset(&read_buf, 0, BUFFER_SIZE); 
 			read_len = recv(accepted_con,read_buf, BUFFER_SIZE,0) ; 
 			if (read_len == -1 ) { 
 				printf("Error reading the incoming data \n"); 
@@ -101,35 +101,46 @@ int main(void) {
 				 * and the arguments 
 				 */ 
 			
+				arg_iter = 1; 	 /* Start of the actual arg */ 
 				p = strchr(read_buf,' '); /* Find the first location of a space */
 				if (p) {
+					printf("when space match in read_buf \n"); 
 					 /* Terminate at the space and increment */
 					*p++ ='\0'; 
 					/* Pointer to new string from buf gets autocut */
 					 path_string = strdup(read_buf); 
 					/* Rest of the command string */
 					 arg_string = strdup(p); 
+					
+					command_arguments[0] = path_string;  
+					
+					if ( strchr(arg_string, ' ')) { 	
+						/* Split string and populate array */ 
+						while( (p = strchr(arg_string, ' '))){
+							*p++='\0';  /* Mark the end of the string */ 
+							command_arguments[arg_iter] = strdup(arg_string);
+							arg_string = strdup(p) ; /* Rest of the args */
+
+							printf("command_arguments: %s\n ", command_arguments[arg_iter]);
+							printf("arg_string : %s \n ", arg_string);
+							arg_iter ++ ;
+						}
+					}
+					else { 
+						command_arguments[arg_iter] = arg_string ; 
+						command_arguments[++arg_iter] = NULL ;  
+					}
+				} 
+				else { 
+					/* Our path will be the entire buffer */ 
+					path_string = strdup(read_buf); 
+					command_arguments[0] = path_string;  
+					command_arguments[arg_iter] = NULL ;  
 				}
 
 				printf("path : %s\n", path_string );  
 				printf("args: %s\n", arg_string); 
 				
-				/* Construct the argument array */ 
-				/* Convention: exec argv[0] has the name of calling*/ 
-				command_arguments[0] = path_string;  
-				arg_iter = 1; 	 /* Start of the actual arg */ 
-
-				/* Split string and populate array */ 
-				while( (p = strchr(arg_string, ' '))){
-					*p++='\0';  /* Mark the end of the string */ 
-					command_arguments[arg_iter] = strdup(arg_string);
-					arg_string = strdup(p) ; /* Rest of the args */
-
-					printf("command_arguments: %s\n ", command_arguments[arg_iter]);
-					printf("arg_string : %s \n ", arg_string);
-					arg_iter ++ ;
-				}
-			 
 				pid_t servicing_child ; 
 				servicing_child = fork() ; 
 			
@@ -149,8 +160,15 @@ int main(void) {
 						printf("Dup not done \n"); 
 						exit(1);
 					}
-						
-					 int exec_ret = execv(path_string, command_arguments); 
+					
+					/*	
+					printf("path_string %s\n", path_string ); 	
+					int i = 0; 
+					for ( i = 0 ; i < BUFFER_SIZE  ; i++ ) {
+						printf("command_arguments [%d] %s\n", i, command_arguments[i]); 	
+					} 
+					*/
+					 int exec_ret = execvp(path_string, command_arguments); 
 					 if (exec_ret == -1 ) {
 						 int local_err = errno ;
 						 perror("exec not done \n");
@@ -164,9 +182,9 @@ int main(void) {
 				
 				/* Parent */  
 				else { 
-					int status ; 
 					waitpid(servicing_child,  &status,  WUNTRACED | WCONTINUED) ;
 					printf("Data sent to the client \n"); 
+					
 					close(accepted_con); 
 				}
 
