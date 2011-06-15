@@ -1,0 +1,35 @@
+README: Why all this code ?
+=============================
+
+Intentions
+-------------
+* Learn about process creation 
+* Inter process communication 
+
+Actual task
+------------
+* Share simple data between two processes.
+ 	
+Modules 
+------------
+I have separated the common ways of doing this various folders.
+	* forks
+		- Figure out ways we could create child processes and their implications 
+	* pipes 
+		- Get the data passed 	
+	* sockets 
+		- Get the data across between two processes using sockets. 	
+
+Helpful things 
+--------------
+Unix design textbook 
+man 3 exec 
+man 2 fork 
+man 2 pipe 
+man 2 vfork 
+man 7 socket 
+man 3 getaddrinfo 
+
+TODO 
+-----------------
+Experiment all of [these] (http://en.wikipedia.org/wiki/Inter-process_communication)
