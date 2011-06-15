@@ -4,11 +4,13 @@ README: Why all this code ?
 Intentions
 -------------
 * Learn about process creation 
+* Address space
 * Inter process communication 
 
 Actual task
 ------------
 * Share simple data between two processes.
+* And later extend it to understand other things
  	
 Modules 
 ------------
