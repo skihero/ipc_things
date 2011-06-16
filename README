@@ -34,4 +34,5 @@ man 3 getaddrinfo
 
 TODO 
 -----------------
-Experiment all of [these] (http://en.wikipedia.org/wiki/Inter-process_communication)
+Experiment all of [these](http://en.wikipedia.org/wiki/Inter-process_communication)
+Experiment with select and epoll 
